@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
 
-    <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
-    </main>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
 
-    <load src="./partials/footer.html" />
+<body>
+  <header class="header">
+    <link rel="stylesheet" href="node_modules/izitoast/dist/css/iziToast.min.css">
+    <link rel="stylesheet" href="node_modules/simplelightbox/dist/simple-lightbox.min.css">
 
-    <script type="module" src="./main.js"></script>
-  </body>
+    <form id="search-form">
+      <input type="text" name="query" placeholder="Введіть ключове слово" required>
+      <button type="submit">Пошук</button>
+    </form>
+
+    <!-- <div class="gallery"></div> -->
+    <div id="gallery" class="gallery"></div>
+  </header>
+  <main>
+
+  </main>
+
+
+  <script src="node_modules/izitoast/dist/js/iziToast.min.js"></script>
+  <script src="node_modules/simplelightbox/dist/simple-lightbox.min.js"></script>
+
+  <script type="module" src="./main.js"></script>
+  <script type="module" src="./js/pixabay-api.js"></script>
+  <script type="module" src="./js/render-functions.js"></script>
+</body>
+
 </html>

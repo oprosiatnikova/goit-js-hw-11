@@ -16,3 +16,51 @@
 @import url('./badges.css');
 @import url('./back-link.css');
 @import url('./footer.css');
+
+/* .gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.gallery-item {
+  display: block;
+  width: calc((100% - 64px) / 5); /* 5 елементів в рядку з відступами */
+}
+
+/* .gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+} */ */
+ #search-form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#search-input {
+  width: 300px;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+/* Стилі для галереї */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.gallery a {
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
