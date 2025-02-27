@@ -1,67 +1,47 @@
-
-import axios from 'axios';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import { iziOption } from '../main';
 
-const form = document.getElementById('search-form');
-const gallery = document.getElementById('gallery');
-const apiKey = 'YOUR_PIXABAY_API_KEY';
+export function markup(data) {
+  let { hits } = data;
+  const box = document.querySelector('.gallery');
 
-form.addEventListener('submit', async(e)) => {
-    e.preventDefault();
-    const query = document.getElementById('search-input').value.trim();
+  if (hits.length === 0) {
+    iziToast.show({
+      ...iziOption,
+      message:
+        'Sorry, there are no images matching your search query. Please, try again!',
+    });
+    box.innerHTML = '';
 
-    if (!query) {
-        iziToast.error({
-            title: 'Помилка',
-            message: 'Будь ласка, введіть пошукове слово.',
-        });
-        return;
-    }
-}
-
-  // Показуємо індикатор завантаження
-  iziToast.info({
-    title: 'Завантаження',
-    message: 'Пошук зображень...',
-    timeout: 1000,
+    return;
+  }
+  const markup = hits
+    .map(
+      image =>
+        `<li class='gallery__item'>
+        <a class='gallery__link' href="${image.largeImageURL}">
+        <img class='gallery__img' src="${image.webformatURL}" alt="${image.tags}" />
+          <div class="grid">
+            <p>Likes</p>
+            <p>Views</p>
+            <p>Comment</p>
+            <p>Downloads</p>
+            <span>${image.likes}</span>
+            <span>${image.views}</span>
+            <span>${image.comments}</span>
+            <span>${image.downloads}</span>
+          </div>
+        </a>
+      </li>`
+    )
+    .join(' ');
+  box.innerHTML = markup;
+  const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
   });
-
-    try {
-        const response = await axios.get('https://pixabay.com/api/', {
-            params: {
-                key: apiKey,
-                q: query,
-                image_type: 'photo',
-                orientation: 'horizontal',
-                safesearch: true,
-            },
-        });
-    }
-
-    const images = response.data.hits;
-
-    // Очищуємо попередні результати
-    gallery.innerHTML = '';
-
-    if (images.length === 0) {
-      iziToast.warning({
-        title: 'Нічого не знайдено',
-        message: 'Спробуйте ввести інше пошукове слово.',
-      });
-      return;
-    }
-
-    // Створюємо розмітку для зображень
-    const markup = images
-      .map(
-        (image)) => `
-      <a href="${image.largeImageURL}" class="gallery-item">
-        <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
-        <div class="info">
-          <p><b>Likes:</b> ${image.likes}</p>
-          <p><b>Views:</b> ${image.views}</p>
-          <p><b>Comments:</b> ${image.comments}</p>
-          <p><b>Downloads:</b> ${image.download}
+  lightbox.refresh();
+}

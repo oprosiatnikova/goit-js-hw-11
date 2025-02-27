@@ -3,36 +3,25 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gallery</title>
+  <title>Image search</title>
+  <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet" />
+
+
   <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
 <body>
-  <header class="header">
-    <link rel="stylesheet" href="node_modules/izitoast/dist/css/iziToast.min.css">
-    <link rel="stylesheet" href="node_modules/simplelightbox/dist/simple-lightbox.min.css">
-
-    <form id="search-form">
-      <input type="text" name="query" placeholder="Введіть ключове слово" required>
-      <button type="submit">Пошук</button>
-    </form>
-
-    <!-- <div class="gallery"></div> -->
-    <div id="gallery" class="gallery"></div>
-  </header>
   <main>
+    <form class="form">
+      <input type="text" class="user-input" placeholder="Введіть ключове слово..." />
+      <button type="submit" class="submit-button">Пошук</button>
+    </form>
+    <div class="gallery"></div>
 
   </main>
-
-
-  <script src="node_modules/izitoast/dist/js/iziToast.min.js"></script>
-  <script src="node_modules/simplelightbox/dist/simple-lightbox.min.js"></script>
-
   <script type="module" src="./main.js"></script>
-  <script type="module" src="./js/pixabay-api.js"></script>
-  <script type="module" src="./js/render-functions.js"></script>
 </body>
 
 </html>

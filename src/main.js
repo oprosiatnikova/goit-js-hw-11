@@ -1,62 +1,33 @@
-import { fetchImages } from './pixabay-api';
+import { getImage } from './js/pixabay-api';
+import errorIcon from './img/icon.svg';
 import iziToast from 'izitoast';
-import SimpleLightbox from 'simplelightbox';
+import 'izitoast/dist/css/iziToast.min.css';
 
-const form = document.getElementById('search-form');
-const gallery = document.querySelector('.gallery');
-let lightbox;
 
-form.addEventListener('submit', async (event) => {
+export const iziOption = {
+  messageColor: '#FAFAFB',
+  messageSize: '16px',
+  backgroundColor: '#EF4040',
+  iconUrl: errorIcon,
+  transitionIn: 'bounceInLeft',
+  position: 'topRight',
+  displayMode: 'replace',
+  closeOnClick: true,
+};
+
+document.querySelector('.form').addEventListener('submit', event => {
+  const input = document.querySelector('.user-input').value.trim();
+  const box = document.querySelector('.gallery');
   event.preventDefault();
-  const query = event.target.query.value.trim();
 
-  if (!query) {
-    iziToast.error({
-      title: 'Помилка',
-      message: 'Введіть ключове слово для пошуку.',
+  if (!input) {
+    iziToast.show({
+      ...iziOption,
+      message: 'Будь ласка, введіть пошуковий запит',
     });
     return;
   }
-
-  try {
-    const data = await fetchImages(query);
-
-    if (data.hits.length === 0) {
-      iziToast.warning({
-        title: 'Нічого не знайдено',
-        message: 'Спробуйте інше ключове слово.',
-      });
-      gallery.innerHTML = '';
-      return;
-    }
-
-    renderGallery(data.hits);
-    iziToast.success({
-      title: 'Успіх',
-      message: `Знайдено ${data.totalHits} зображень.`,
-    });
-
-    if (lightbox) {
-      lightbox.destroy();
-    }
-    lightbox = new SimpleLightbox('.gallery a');
-  } catch (error) {
-    iziToast.error({
-      title: 'Помилка',
-      message: 'Сталася помилка під час завантаження зображень.',
-    });
-  }
+  box.innerHTML =
+    '<p>Зачекайте, зображення завантажується</p><span class="loader"></span>';
+  getImage(input);
 });
-
-function renderGallery(images) {
-  const markup = images
-    .map(
-      ({ webformatURL, largeImageURL, tags }) => `
-      <a href="${largeImageURL}" class="gallery-item">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-      </a>
-    `
-    )
-    .join('');
-  gallery.innerHTML = markup;
-}
